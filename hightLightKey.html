@@ -1,0 +1,126 @@
+<html>
+
+<head>
+    <style>
+        #ac {
+            width: 100%;
+            border: 1px solid sienna;
+            height: 400px;
+            line-height: 2;
+            overflow: scroll;
+        }
+
+        .from,
+        .AND,
+        .LEFT,
+        .WHERE {
+            color: blue;
+        }
+
+        .select {
+            color: cadetblue;
+        }
+
+        .join {
+            color: darkgoldenrod;
+        }
+
+        .abc {
+            color: cyan;
+        }
+
+        .CHARINDEX {
+            color: fuchsia;
+        }
+
+        .ON {
+            color: cadetblue;
+        }
+
+        .string {
+            color: brown;
+        }
+        .table{
+            color: mediumseagreen;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="ac">
+        SELECT 
+        *
+        FROM Table p
+        LEFT JOIN Table2 pc ON p.PsngrId = pc.PsngrId
+        WHERE CHARINDEX(',',p.CHARINDEX)>0 <br/>
+        and p.CompanyId='123387'
+        </div>
+</body>
+
+<script type="text/javascript">
+    function Search(regexp) {
+        var rangs = [];
+        var nodes = document.querySelector("#ac").childNodes;
+        // 正则表达式
+        nodes.forEach((node) => { Locate(node, regexp, rangs) });
+        return rangs;
+    }
+
+    //递归差找key的位置
+    function Locate(node, regexp, rangs) {
+        if (node.wholeText) {
+            const array = node.wholeText.matchAll(regexp);
+            //1选择节点，
+            for (const match of array) {
+                range = document.createRange();  //引用类型
+                range.setStart(node, match.index);
+                range.setEnd(node, match.index + match[0].length);
+                rangs.push(range);
+            }
+        } else {
+            var nodes = node.childNodes;
+            nodes.forEach((item) => {
+                Locate(item, regexp, rangs);
+            })
+        }
+    }
+    //上色
+    function Render(cls, regexp) {
+        var items = Search(regexp);
+        items.forEach((item) => {
+            var span = document.createElement("span");
+            span.innerText = item.toString();
+            span.setAttribute("class", cls);
+            //2,操作节点
+            item.deleteContents();
+            item.insertNode(span);
+        })
+
+    }
+    function Bach() {
+        regexp = new RegExp(/'\W*'/, "gim");  //'常用' 
+        Render('string', regexp);
+        regexp= new RegExp(/(?<=JOIN\s+)\w+/,"gim")   //JOIN PsngrContacts
+        Render('string', regexp )
+        regexp= new RegExp(/(?<=From\s+)\w+/,"gim")  //  FROM Pasengers 
+        Render('table', regexp )
+
+        var keys = ["from", "select", "join", "CHARINDEX", "LEFT", "ON", "AND", "WHERE"];
+        keys.forEach((key) => {   //     
+            const regexp = new RegExp(key, "gim");
+            Render(key, regexp);
+        });
+    
+    }
+
+    var keydown =document.onkeydown;
+    document.onkeydown=function(){
+        if(window.event.ctrlKey &&window.event.altKey && window.event.keyCode==70){
+            Bach();
+        }
+        keydown.apply(this);
+    }
+
+</script>
+
+</html>
