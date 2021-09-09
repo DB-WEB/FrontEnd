@@ -28,7 +28,7 @@ class ScreenVideoControl(object):
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         faces = self.face_detection.detectMultiScale(gray, 1.3, 5)
         for (x, y, w, h) in faces:
-            cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 3)
+            cv2.rectangle(img, (x, y), (x+w, y+h), (78, 223, 129), 1)
             #pyautogui.moveTo(x+(w/2), y+(h)/2, duration=0.25)
             #pyautogui.click(x+(w/2), y+(h)/2)
 
