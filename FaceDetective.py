@@ -18,22 +18,21 @@ class ScreenVideoControl(object):
         self.video_record()
         #self.remove_path_file()
     
-    def Det(self,img):
+    def moveToFaceAndShoot(self,img):
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) 
         faces =self.face_detection.detectMultiScale(gray, 1.3, 5) 
         for (x,y,w,h) in faces: 
             cv2.rectangle(img,(x,y),(x+w, y+h),(255,0,0),3) 
-            pyautogui.moveTo(x+(w/2),y+(h)/2,duration=1)
+            pyautogui.moveTo(x+(w/2),y+(h)/2,duration=0.25)
             pyautogui.click(x+(w/2),y+(h)/2)
-            pyautogui.click(x+(w/2),y+(h)/2)
+            
            
     def video_record(self):
         print("screen record is doing........")
-        print('---录屏已经开始了--')
         while True:
             im = ImageGrab.grab()
             imm = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)  # 转为opencv的BGR格式
-            self.Det(imm)
+            self.moveToFaceAndShoot(imm)
             
 screen_video=ScreenVideoControl()
 screen_video.run()
