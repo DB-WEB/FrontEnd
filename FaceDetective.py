@@ -32,6 +32,9 @@ class ScreenVideoControl(object):
             font=cv2.FONT_HERSHEY_SIMPLEX
             cv2.putText(img,'####',(x, y-10),font,0.5,(0,0,255),1)
            
+           # 记录人脸信息
+            ccropped = img[y-20:h+y+20, x-20:w+x+20]
+            cv2.imwrite(self.generate_img_name(),ccropped)
 
             #pyautogui.moveTo(x+(w/2), y+(h)/2, duration=0.25)
             #pyautogui.click(x+(w/2), y+(h)/2)
@@ -63,3 +66,9 @@ class ScreenVideoControl(object):
 
 screen_video = ScreenVideoControl()
 screen_video.run()
+
+
+#corp
+#比如有张图片大小的是100X100,要裁剪其中x=10,y=5,h=20,w=20的就
+
+#img=img[5:25,10:30]
