@@ -28,7 +28,11 @@ class ScreenVideoControl(object):
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         faces = self.face_detection.detectMultiScale(gray, 1.3, 5)
         for (x, y, w, h) in faces:
-            cv2.rectangle(img, (x, y), (x+w, y+h), (78, 223, 129), 1)
+            cv2.rectangle(img, (x, y), (x+w, y+h), (0,0,255), 1)
+            font=cv2.FONT_HERSHEY_SIMPLEX
+            cv2.putText(img,'####',(x, y-10),font,0.5,(0,0,255),1)
+           
+
             #pyautogui.moveTo(x+(w/2), y+(h)/2, duration=0.25)
             #pyautogui.click(x+(w/2), y+(h)/2)
 
@@ -53,6 +57,9 @@ class ScreenVideoControl(object):
         file_name = datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S') + '_screen.avi'
         # 文件路径
         self.screen_file_path = os.path.join(self.save_dir, file_name)
+
+    def generate_img_name(self):
+        return  datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')+'.png'
 
 screen_video = ScreenVideoControl()
 screen_video.run()
