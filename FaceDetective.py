@@ -35,6 +35,8 @@ class ScreenVideoControl(object):
            # 记录人脸信息
             ccropped = img[y-20:h+y+20, x-20:w+x+20]
             cv2.imwrite(self.generate_img_name(),ccropped)
+            print('X:%s Y:%s'%(x,y))
+
 
             #pyautogui.moveTo(x+(w/2), y+(h)/2, duration=0.25)
             #pyautogui.click(x+(w/2), y+(h)/2)
