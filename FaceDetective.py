@@ -2,24 +2,28 @@ from PIL import ImageGrab
 import numpy as np
 import cv2
 import datetime
-import time
+from win32api import *
 import os
 import pyautogui
 import keyboard
+from drawRectangle import ScreemAear
 
 
 class ScreenVideoControl(object):
     def __init__(self):
         self.fps = 25  # 帧率为25，可以调节
         pyautogui.FAILSAFE = False
-        self.save_dir = 'D:\\etc'
+        self.save_dir = 'C:\\Users\\Administrator\\Desktop\\Matchs\\Vadio'
         self.screen_file_path = None
         self.get_video_path()
+        self.screen_width = GetSystemMetrics(0)
+        self.screen_height = GetSystemMetrics(1)
+        
 
         self.face_detection = cv2.CascadeClassifier(
             'C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\cv2\data\\haarcascade_frontalface_default.xml')
         self.video = cv2.VideoWriter(self.screen_file_path, cv2.VideoWriter_fourcc(*'XVID'), self.fps,
-                                     ImageGrab.grab().size)
+                                     ImageGrab.grab(self.getBox()).size)
 
     def run(self):
         self.video_record()
@@ -37,8 +41,9 @@ class ScreenVideoControl(object):
 
     def video_record(self):
         print("screen record is doing........")
+        thread = ScreemAear().DrawRectangle()
         while True:
-            im = ImageGrab.grab()
+            im = ImageGrab.grab(self.getBox()) #(left_x, top_y, right_x, bottom_y)
             # 转为opencv的BGR格式
             imm = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
             self.detectFace(imm)
@@ -47,6 +52,7 @@ class ScreenVideoControl(object):
                 break
         self.video.release()
         cv2.destroyAllWindows()
+        thread.join()
 
     def get_video_path(self):
         # 录屏保存的文件目录路径
@@ -74,10 +80,17 @@ class ScreenVideoControl(object):
             cv2.rectangle(image, top_left,(top_left[0]+w, top_left[1]+h), 255, 2)
             cv2.putText(image,"MR-XIAO-Ming",top_left,cv2.FONT_HERSHEY_SIMPLEX,0.2,(0,0,255))
             cv2.imwrite(self.generate_img_name(), image)
+            cv2.imshow(self.generate_img_name(),image)
+            cv2.waitKey(0)
 
+    def getBox(self):
+        bbox =(self.screen_width/2,0,self.screen_width,self.screen_height)
+        return bbox
 
 screen_video = ScreenVideoControl()
 screen_video.run()
+
+
 
 
 # corp
