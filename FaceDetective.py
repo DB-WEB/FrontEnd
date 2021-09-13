@@ -18,6 +18,8 @@ class ScreenVideoControl(object):
         self.get_video_path()
         self.screen_width = GetSystemMetrics(0)
         self.screen_height = GetSystemMetrics(1)
+        self.ScreemAear=ScreemAear()
+        self.threadContainer=[]
         
 
         self.face_detection = cv2.CascadeClassifier(
@@ -34,25 +36,28 @@ class ScreenVideoControl(object):
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         faces = self.face_detection.detectMultiScale(gray, 1.3, 5)
         for (x, y, w, h) in faces:
-            template = cv2.imread('test.jpg')
-            self.match_img(img, template, 0.9)
+            mat=np.mat([[x,y],[w,h]])
+            t= self.ScreemAear.drawFace(x, y, w, h)
+
+            #template = cv2.imread('test.jpg')
+            #self.match_img(img, template, 0.9)
             #pyautogui.moveTo(x+(w/2), y+(h)/2, duration=0.25)
             #pyautogui.click(x+(w/2), y+(h)/2)
 
     def video_record(self):
         print("screen record is doing........")
-        thread = ScreemAear().DrawRectangle()
+       
         while True:
             im = ImageGrab.grab(self.getBox()) #(left_x, top_y, right_x, bottom_y)
             # 转为opencv的BGR格式
             imm = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
             self.detectFace(imm)
             self.video.write(imm)
+            self.ScreemAear.DrawRectangle()
             if keyboard.is_pressed('Esc'):
                 break
         self.video.release()
         cv2.destroyAllWindows()
-        thread.join()
 
     def get_video_path(self):
         # 录屏保存的文件目录路径
@@ -84,7 +89,7 @@ class ScreenVideoControl(object):
             cv2.waitKey(0)
 
     def getBox(self):
-        bbox =(self.screen_width/2,0,self.screen_width,self.screen_height)
+        bbox =(self.screen_width/2,0,self.screen_width,self.screen_height/2)
         return bbox
 
 screen_video = ScreenVideoControl()
