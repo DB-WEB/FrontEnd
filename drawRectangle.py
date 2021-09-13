@@ -10,8 +10,8 @@ class ScreemAear:
         self.dc = win32gui.GetDC(0)
         self.monitor = (0, 0, GetSystemMetrics(0), GetSystemMetrics(1))
 
-        self.red = win32api.RGB(0, 0, 0)  # Red
-        self.green = win32api.RGB(0, 255, 0)
+        self.red = win32api.RGB(218, 220, 224)  # Red
+        self.green = win32api.RGB(218, 220, 224)
         self.width = GetSystemMetrics(0)
         self.height = GetSystemMetrics(1)
 
