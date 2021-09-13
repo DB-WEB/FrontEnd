@@ -7,7 +7,8 @@ import os
 import pyautogui
 import keyboard
 from drawRectangle import ScreemAear
-
+from tkinter import *
+import threading
 
 class ScreenVideoControl(object):
     def __init__(self):
@@ -21,7 +22,6 @@ class ScreenVideoControl(object):
         self.screen_height = GetSystemMetrics(1)
         self.ScreemAear = ScreemAear()
         self.threadContainer = []
-
         self.face_detection = cv2.CascadeClassifier(
             'C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\cv2\data\\haarcascade_frontalface_default.xml')
         self.video = cv2.VideoWriter(self.screen_file_path, cv2.VideoWriter_fourcc(*'XVID'), self.fps,
@@ -29,6 +29,7 @@ class ScreenVideoControl(object):
 
     def run(self):
         self.video_record()
+
         # self.remove_path_file()
 
     # 识别人脸
@@ -51,8 +52,8 @@ class ScreenVideoControl(object):
                     score = self.match_img(crop, template)
                     if(score > maxScore):
                         maxScore = score
-            print(maxScore)
             if(maxScore < 0.8):
+                print(maxScore)
                 cv2.imwrite(os.path.join(
                     self.imgCut, self.generate_img_name()), crop)
 
@@ -100,15 +101,13 @@ class ScreenVideoControl(object):
         return max_val
 
     def getBox(self):
-        bbox = (self.screen_width/2, 0, self.screen_width, self.screen_height/2)
+        #bbox = (self.screen_width/2, 0, self.screen_width, self.screen_height/2)
+        bbox = (0, 0, self.screen_width, self.screen_height)
         return bbox
-
 
 screen_video = ScreenVideoControl()
 screen_video.run()
 
 
-# corp
-# 比如有张图片大小的是100X100,要裁剪其中x=10,y=5,h=20,w=20的就
 
-# img=img[5:25,10:30]
+# corp
