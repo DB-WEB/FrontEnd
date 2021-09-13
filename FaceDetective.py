@@ -53,9 +53,9 @@ class ScreenVideoControl(object):
                     if(score > maxScore):
                         maxScore = score
             if(maxScore < 0.8):
-                print(maxScore)
-                cv2.imwrite(os.path.join(
-                    self.imgCut, self.generate_img_name()), crop)
+                filename = self.generate_img_name()
+                print("找到新目标 %s",filename)
+                cv2.imwrite(os.path.join(self.imgCut,filename), crop)
 
             #template = cv2.imread('test.jpg')
             #self.match_img(img, template, 0.9)
