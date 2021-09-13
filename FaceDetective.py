@@ -36,9 +36,9 @@ class ScreenVideoControl(object):
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         faces = self.face_detection.detectMultiScale(gray, 1.3, 5)
         for (x, y, w, h) in faces:
-            self.ScreemAear.drawFace(x, y, w, h)
+            #self.ScreemAear.drawFace(x, y, w, h)
             files = os.listdir(self.imgCut)
-            crop = img[y-10:h+y+10, x-10:w+x+10]
+            crop = img[y:h+y, x:w+x]
             if(len(files) == 0):
                 cv2.imwrite(os.path.join(
                     self.imgCut, self.generate_img_name()), crop)
@@ -70,7 +70,7 @@ class ScreenVideoControl(object):
             imm = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
             self.detectFace(imm)
             self.video.write(imm)
-            self.ScreemAear.DrawRectangle()
+            #self.ScreemAear.DrawRectangle()
             if keyboard.is_pressed('Esc'):
                 break
         self.video.release()
