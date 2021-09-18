@@ -22,8 +22,7 @@ class ScreenVideoControl(object):
         self.screen_height = GetSystemMetrics(1)
         self.ScreemAear = ScreemAear()
         self.threadContainer = []
-        self.face_detection = cv2.CascadeClassifier(
-            'C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\cv2\data\\haarcascade_frontalface_default.xml')
+        self.face_detection = cv2.CascadeClassifier('cascade.xml')
         self.video = cv2.VideoWriter(self.screen_file_path, cv2.VideoWriter_fourcc(*'XVID'), self.fps,
                                      ImageGrab.grab(self.getBox()).size)
 
@@ -34,8 +33,8 @@ class ScreenVideoControl(object):
 
     # 识别人脸
     def detectFace(self, img):
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        faces = self.face_detection.detectMultiScale(gray, 1.3, 5)
+        gray =cv2.cvtColor(img,cv2.COLOR_BGR2RGBA)
+        faces = self.face_detection.detectMultiScale(gray)
         for (x, y, w, h) in faces:
             self.ScreemAear.drawFace(x, y, w, h)
             files = os.listdir(self.imgCut)

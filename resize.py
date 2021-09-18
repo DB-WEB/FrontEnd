@@ -1,10 +1,10 @@
 import cv2
+import os
+files = os.listdir('ShootCut')
+for file in files:
+    if(os.path.isfile(os.path.join('ShootCut',file))):
+        img=cv2.imread(os.path.join('ShootCut',file),0)
+        resize = cv2.resize(img,(100,100),interpolation=cv2.INTER_AREA)
 
-img=cv2.imread('1365470-20190325202348896-1685286902.png',0)
-w=24
-h=24
-resize = cv2.resize(img,(w,h),interpolation=cv2.INTER_AREA)
-cv2.imshow('size',resize)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+
 
