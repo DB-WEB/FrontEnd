@@ -8,7 +8,7 @@ import pyautogui
 import keyboard
 from drawRectangle import ScreemAear
 from tkinter import *
-import threading
+
 
 class ScreenVideoControl(object):
     def __init__(self):
@@ -33,7 +33,7 @@ class ScreenVideoControl(object):
 
     # 识别人脸
     def detectFace(self, img):
-        gray =cv2.cvtColor(img,cv2.COLOR_BGR2RGBA)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2RGBA)
         faces = self.face_detection.detectMultiScale(gray)
         for (x, y, w, h) in faces:
             self.ScreemAear.drawFace(x, y, w, h)
@@ -53,8 +53,8 @@ class ScreenVideoControl(object):
                         maxScore = score
             if(maxScore < 0.8):
                 filename = self.generate_img_name()
-                print("找到新目标 %s",filename)
-                cv2.imwrite(os.path.join(self.imgCut,filename), crop)
+                print("找到新目标 %s", filename)
+                cv2.imwrite(os.path.join(self.imgCut, filename), crop)
 
             #template = cv2.imread('test.jpg')
             #self.match_img(img, template, 0.9)
@@ -104,9 +104,9 @@ class ScreenVideoControl(object):
         bbox = (0, 0, self.screen_width, self.screen_height)
         return bbox
 
+
 screen_video = ScreenVideoControl()
 screen_video.run()
-
 
 
 # corp
