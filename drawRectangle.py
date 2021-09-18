@@ -11,7 +11,7 @@ class ScreemAear:
         self.monitor = (0, 0, GetSystemMetrics(0), GetSystemMetrics(1))
 
         self.red = win32api.RGB(218, 220, 224)  # Red
-        self.green = win32api.RGB(0, 0, 255)
+        self.green = win32api.RGB(230, 218, 138)
         self.width = GetSystemMetrics(0)
         self.height = GetSystemMetrics(1)
 
@@ -22,6 +22,7 @@ class ScreemAear:
         for y in range(self.height):
             win32gui.SetPixel(self.dc, 0, y,self.red)  # draw red at 0,0
             win32gui.SetPixel(self.dc, self.width-2, y, self.red)  # y,x
+        self.refresh_window()
 
     def drawFace(self, x, y, w, h):
         for pix in range(w):
@@ -30,3 +31,8 @@ class ScreemAear:
         for pix in range(h):
             win32gui.SetPixel(self.dc,x, y+pix, self.green)
             win32gui.SetPixel(self.dc,x+w, y+pix, self.green)
+        self.refresh_window()
+    
+    def refresh_window(self):
+        window_id = win32gui.GetDesktopWindow()
+        win32gui.UpdateWindow(window_id)
