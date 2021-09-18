@@ -12,7 +12,7 @@ from tkinter import *
 
 class ScreenVideoControl(object):
     def __init__(self):
-        self.fps = 25  # 帧率为25，可以调节
+        self.fps = 10  # 帧率为25，可以调节
         pyautogui.FAILSAFE = False
         self.save_dir = 'Vadio'
         self.imgCut = 'ShootCut'
